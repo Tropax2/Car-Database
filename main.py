@@ -1,4 +1,4 @@
-"""Prompts the user to insert its car info"""
+"""A small car database that acquires info by prompting the user."""
 
 from Car_structure import Car 
 from collections import Counter
@@ -22,10 +22,17 @@ def prompt_the_user(prompt):
             print("Your answer must be 'yes' or 'no'.")
             continue
 
-# Gets the brands and adds them to a list, removing repetitions and counting the number of occurences of each brand.
-def brands_and_numbers():
+# Gets the brands and adds them to a list.
+def brands_and_amount():
     brands = [brand.get('brand', None) for brand in my_cars]
-    print(dict(Counter(brands))) 
+    return brands
+
+# gets the brands and the number of vehicles of each brand.
+def get_brand_counts():
+    counts = Counter(brands_and_amount())
+    brands = list(counts.keys())
+    amounts = list(counts.values())
+    return brands, amounts
 
 # This is the main function.
 def main():
@@ -46,22 +53,21 @@ def main():
         elif add_more_cars == 'no':
             break
     
-    see_car_brand_and_number = prompt_the_user("Do you want to see which brands do you have and how many cars of each brand you own?")
+    see_car_brands_and_amounts = prompt_the_user("Do you want to see which brands do you have and how many cars of each brand you own?")
 
-    if see_car_brand_and_number == 'yes':
-        brands_and_numbers()
+    if see_car_brands_and_amounts == 'yes':
+        print(dict(Counter(brands_and_amount())))
 
-    elif see_car_brand_and_number == 'no':
+    elif see_car_brands_and_amounts == 'no':
         pass
 
     final_results = prompt_the_user("Do you want to visualise all the data?")
 
     if final_results == 'yes':
-        print(my_cars)
+        print(my_cars)   
     
 if __name__ == "__main__":
     main()
-
 
 
 
