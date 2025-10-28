@@ -2,6 +2,8 @@
 
 from Car_structure import Car 
 from collections import Counter
+from plotly.graph_objects import Bar 
+from plotly import offline
 
 my_cars = []
 
@@ -34,6 +36,29 @@ def get_brand_counts():
     amounts = list(counts.values())
     return brands, amounts
 
+# This function will construct the Bar plot.
+def get_graph():
+    x_values, y_values = get_brand_counts()
+
+    data = [{
+        "type": "bar",
+        "x": x_values,
+        "y": y_values
+        }]
+    
+    my_layout = {
+        "title": "My Cars",
+        "xaxis": {
+            "title": "Brands"
+        },
+        "yaxis": {
+            "title": "Numbers"
+        }
+    }
+     
+    fig = {'data': data, 'layout': my_layout}
+    offline.plot(fig, filename="My_cars.html")
+
 # This is the main function.
 def main():
     print("Hello, this program will store the information about your cars.")
@@ -59,6 +84,13 @@ def main():
         print(dict(Counter(brands_and_amount())))
 
     elif see_car_brands_and_amounts == 'no':
+        pass
+
+    see_bar_plot = prompt_the_user("Do you want to see a bar plot your cars data?")
+    
+    if see_bar_plot == 'yes':
+        get_graph()
+    elif see_bar_plot == 'no':
         pass
 
     final_results = prompt_the_user("Do you want to visualise all the data?")
