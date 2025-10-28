@@ -1,5 +1,4 @@
 """Attempts to create a simple model for a car"""
-
 class Car:
     
     def __init__(self, brand, model, year):
