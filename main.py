@@ -4,13 +4,17 @@ from Car_structure import Car
 from collections import Counter
 from plotly.graph_objects import Bar 
 from plotly import offline
+import json, csv
 
-my_cars = []
+my_cars = [] 
 
 # Adds the data of the cars to a dictionary.
-def write_on_data_base(brand, model, year):
+def write_on_database(brand, model, year, testing=False):
     my_car = Car(brand.title(), model.title(), year)
     my_cars.append(my_car.structure())
+    #for testing only
+    if testing:
+        return my_cars
 
 # Prompts the user.
 def prompt_the_user(prompt):
@@ -25,9 +29,9 @@ def prompt_the_user(prompt):
             continue
 
 # Gets the brands and adds them to a list.
-def brands_and_amount():
-    brands = [brand.get('brand', None) for brand in my_cars]
-    return brands
+def brands_and_amount(cars):
+    brands_and_amounts = [brand.get('brand', None) for brand in cars]
+    return brands_and_amounts
 
 # gets the brands and the number of vehicles of each brand.
 def get_brand_counts():
@@ -68,7 +72,7 @@ def main():
         model = input("What is the model of the car?\n")
         year = int(input("From which year is the car?\n"))
 
-        write_on_data_base(brand, model, year)
+        write_on_database(brand, model, year)
         
         add_more_cars = prompt_the_user("Do you want to add more cars to the list?")
 
@@ -81,7 +85,7 @@ def main():
     see_car_brands_and_amounts = prompt_the_user("Do you want to see which brands do you have and how many cars of each brand you own?")
 
     if see_car_brands_and_amounts == 'yes':
-        print(dict(Counter(brands_and_amount())))
+        print(dict(Counter(brands_and_amount(my_cars))))
 
     elif see_car_brands_and_amounts == 'no':
         pass
